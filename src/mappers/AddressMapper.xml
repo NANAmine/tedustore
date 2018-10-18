@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="cn.tedu.store.mapper.AddressMapper">
+	<resultMap id="BaseResultMap" type="cn.tedu.store.bean.Address">
+		<constructor>
+			<idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+			<arg column="uid" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+			<arg column="recv_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+			<arg column="recv_province" javaType="java.lang.String" jdbcType="VARCHAR"/>
+			<arg column="recv_city" javaType="java.lang.String" jdbcType="VARCHAR"/>
+			<arg column="recv_area" javaType="java.lang.String" jdbcType="VARCHAR"/>
+			<arg column="recv_district" javaType="java.lang.String" jdbcType="VARCHAR"/>
+			<arg column="recv_addr" javaType="java.lang.String" jdbcType="VARCHAR"/>
+			<arg column="recv_phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+			<arg column="recv_tel" javaType="java.lang.String" jdbcType="VARCHAR"/>
+			<arg column="recv_zip" javaType="java.lang.String" jdbcType="VARCHAR"/>
+			<arg column="recv_tag" javaType="java.lang.String" jdbcType="VARCHAR"/>
+			<arg column="is_default" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+			<arg column="created_user" javaType="java.lang.String" jdbcType="VARCHAR"/>
+			<arg column="created_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+			<arg column="modified_user" javaType="java.lang.String" jdbcType="VARCHAR"/>
+			<arg column="modified_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+			id, uid, recv_name, recv_province, recv_city, recv_area, recv_district, recv_addr, recv_phone, recv_tel, recv_zip, recv_tag, is_default, created_user, created_time, modified_user, modified_time
+	</sql>
+<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+select
+<include refid="Base_Column_List"/>
+from t_address where id = #{id,jdbcType=INTEGER}
+</select>
+<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+delete from t_address where id = #{id,jdbcType=INTEGER}
+</delete>
+<insert id="insert" parameterType="cn.tedu.store.bean.Address">
+insert into t_address (id, uid, recv_name, recv_province, recv_city, recv_area, recv_district, recv_addr, recv_phone, recv_tel, recv_zip, recv_tag, is_default, created_user, created_time, modified_user, modified_time) values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{recvName,jdbcType=VARCHAR}, #{recvProvince,jdbcType=VARCHAR}, #{recvCity,jdbcType=VARCHAR}, #{recvArea,jdbcType=VARCHAR}, #{recvDistrict,jdbcType=VARCHAR}, #{recvAddr,jdbcType=VARCHAR}, #{recvPhone,jdbcType=VARCHAR}, #{recvTel,jdbcType=VARCHAR}, #{recvZip,jdbcType=VARCHAR}, #{recvTag,jdbcType=VARCHAR}, #{isDefault,jdbcType=INTEGER}, #{createdUser,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{modifiedUser,jdbcType=VARCHAR}, #{modifiedTime,jdbcType=TIMESTAMP})
+</insert>
+<insert id="insertSelective" parameterType="cn.tedu.store.bean.Address">
+insert into t_address
+<trim prefix="(" suffix=")" suffixOverrides=",">
+<if test="id != null">id,</if>
+<if test="uid != null">uid,</if>
+<if test="recvName != null">recv_name,</if>
+<if test="recvProvince != null">recv_province,</if>
+<if test="recvCity != null">recv_city,</if>
+<if test="recvArea != null">recv_area,</if>
+<if test="recvDistrict != null">recv_district,</if>
+<if test="recvAddr != null">recv_addr,</if>
+<if test="recvPhone != null">recv_phone,</if>
+<if test="recvTel != null">recv_tel,</if>
+<if test="recvZip != null">recv_zip,</if>
+<if test="recvTag != null">recv_tag,</if>
+<if test="isDefault != null">is_default,</if>
+<if test="createdUser != null">created_user,</if>
+<if test="createdTime != null">created_time,</if>
+<if test="modifiedUser != null">modified_user,</if>
+<if test="modifiedTime != null">modified_time,</if>
+</trim>
+<trim prefix="values (" suffix=")" suffixOverrides=",">
+<if test="id != null">#{id,jdbcType=INTEGER},</if>
+<if test="uid != null">#{uid,jdbcType=INTEGER},</if>
+<if test="recvName != null">#{recvName,jdbcType=VARCHAR},</if>
+<if test="recvProvince != null">#{recvProvince,jdbcType=VARCHAR},</if>
+<if test="recvCity != null">#{recvCity,jdbcType=VARCHAR},</if>
+<if test="recvArea != null">#{recvArea,jdbcType=VARCHAR},</if>
+<if test="recvDistrict != null">#{recvDistrict,jdbcType=VARCHAR},</if>
+<if test="recvAddr != null">#{recvAddr,jdbcType=VARCHAR},</if>
+<if test="recvPhone != null">#{recvPhone,jdbcType=VARCHAR},</if>
+<if test="recvTel != null">#{recvTel,jdbcType=VARCHAR},</if>
+<if test="recvZip != null">#{recvZip,jdbcType=VARCHAR},</if>
+<if test="recvTag != null">#{recvTag,jdbcType=VARCHAR},</if>
+<if test="isDefault != null">#{isDefault,jdbcType=INTEGER},</if>
+<if test="createdUser != null">#{createdUser,jdbcType=VARCHAR},</if>
+<if test="createdTime != null">#{createdTime,jdbcType=TIMESTAMP},</if>
+<if test="modifiedUser != null">#{modifiedUser,jdbcType=VARCHAR},</if>
+<if test="modifiedTime != null">#{modifiedTime,jdbcType=TIMESTAMP},</if>
+</trim>
+</insert>
+<update id="updateByPrimaryKeySelective" parameterType="cn.tedu.store.bean.Address">
+update t_address
+<set>
+<if test="uid != null">uid = #{uid,jdbcType=INTEGER},</if>
+<if test="recvName != null">recv_name = #{recvName,jdbcType=VARCHAR},</if>
+<if test="recvProvince != null">recv_province = #{recvProvince,jdbcType=VARCHAR},</if>
+<if test="recvCity != null">recv_city = #{recvCity,jdbcType=VARCHAR},</if>
+<if test="recvArea != null">recv_area = #{recvArea,jdbcType=VARCHAR},</if>
+<if test="recvDistrict != null">recv_district = #{recvDistrict,jdbcType=VARCHAR},</if>
+<if test="recvAddr != null">recv_addr = #{recvAddr,jdbcType=VARCHAR},</if>
+<if test="recvPhone != null">recv_phone = #{recvPhone,jdbcType=VARCHAR},</if>
+<if test="recvTel != null">recv_tel = #{recvTel,jdbcType=VARCHAR},</if>
+<if test="recvZip != null">recv_zip = #{recvZip,jdbcType=VARCHAR},</if>
+<if test="recvTag != null">recv_tag = #{recvTag,jdbcType=VARCHAR},</if>
+<if test="isDefault != null">is_default = #{isDefault,jdbcType=INTEGER},</if>
+<if test="createdUser != null">created_user = #{createdUser,jdbcType=VARCHAR},</if>
+<if test="createdTime != null">created_time = #{createdTime,jdbcType=TIMESTAMP},</if>
+<if test="modifiedUser != null">modified_user = #{modifiedUser,jdbcType=VARCHAR},</if>
+<if test="modifiedTime != null">
+modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+</if>
+</set>
+where id = #{id,jdbcType=INTEGER}
+</update>
+<update id="updateByPrimaryKey" parameterType="cn.tedu.store.bean.Address">
+update t_address set uid = #{uid,jdbcType=INTEGER}, recv_name = #{recvName,jdbcType=VARCHAR}, recv_province = #{recvProvince,jdbcType=VARCHAR}, recv_city = #{recvCity,jdbcType=VARCHAR}, recv_area = #{recvArea,jdbcType=VARCHAR}, recv_district = #{recvDistrict,jdbcType=VARCHAR}, recv_addr = #{recvAddr,jdbcType=VARCHAR}, recv_phone = #{recvPhone,jdbcType=VARCHAR}, recv_tel = #{recvTel,jdbcType=VARCHAR}, recv_zip = #{recvZip,jdbcType=VARCHAR}, recv_tag = #{recvTag,jdbcType=VARCHAR}, is_default = #{isDefault,jdbcType=INTEGER}, created_user = #{createdUser,jdbcType=VARCHAR}, created_time = #{createdTime,jdbcType=TIMESTAMP}, modified_user = #{modifiedUser,jdbcType=VARCHAR}, modified_time = #{modifiedTime,jdbcType=TIMESTAMP} where id = #{id,jdbcType=INTEGER}
+</update>
+<update id="updateAllId" parameterType="cn.tedu.store.bean.Address">update t_address set is_default = 0</update>
+
+
+
+
+<!-- List<Address> getAddressByUid(Integer userId); -->
+<select id="getAddressByUid" parameterType="java.lang.Integer" resultType="cn.tedu.store.bean.Address">
+	select *
+	from t_address
+	where uid=#{userId}
+</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

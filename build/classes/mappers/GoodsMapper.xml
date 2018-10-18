@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="cn.tedu.store.mapper.GoodsMapper">
+	
+	<sql id="goodsColumn">
+	id,category_id as categoryId,item_type as itemType,title,sell_point as sellPoint,price,num,barcode,image, status,priority,spec,detail,created_user as createdUser,created_time as createdTime,modified_user as modifiedUser,modified_time as modifiedTime
+	</sql>
+	
+	<sql id="goodsPictureColumn">
+	id, goods_id as goodsId, url, turn,	filename, size, width, height, summary
+	</sql>
+	
+	<sql id="goodsVOColumn">
+	id, category_id as categoryId, title, price, image
+	</sql>
+	
+	
+	<!-- Goods getGoodsById(Integer id); -->
+	<select id="getGoodsById" parameterType="Integer" resultType="cn.tedu.store.bean.Goods">
+		select <include refid="goodsColumn" />
+		from t_goods
+		where id = #{goodsId}
+	</select>
+	
+	<!-- List<GoodsVO> getGoodsVOByCategoryId(@Param("categoryId") Integer categoryId,@Param("offset") Integer offset,@Param("count")Integer count); -->
+	
+	<!-- List<GoodsPicture> getGoodsPictureByGoodsId(Integer GoodsId); -->
+	<select id="getGoodsPicturesByGoodsId" resultType="cn.tedu.store.bean.GoodsPicture">
+		select <include refid="goodsPictureColumn"/>
+		from t_goods_pictures
+		where goods_id = #{goodsId}
+		limit 0,5
+	</select>
+	
+	<select id="getGoodsSpecVOByGoodsId" resultType="cn.tedu.store.bean.GoodsSpecVO">
+		select id, spec
+		from t_goods
+		where id in (
+			select goods_id
+			from t_goods_series
+			where series_id = (
+				select series_id
+				from t_goods_series
+				where goods_id = #{goodsId}
+			)
+		)
+	</select>
+	
+	<select id="getRecommendGoodsVOByGoodsCategoryIdAndGoodsId" resultType="cn.tedu.store.bean.GoodsVO">
+		select <include refid="goodsVOColumn"/>
+		from t_goods
+		where category_id = #{categoryId} and id != #{goodsId}
+		order by priority desc
+		limit 0,5
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

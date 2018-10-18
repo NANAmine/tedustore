@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+<mapper namespace="cn.tedu.store.mapper.DictProvincesMapper">
+<resultMap id="BaseResultMap" type="cn.tedu.store.bean.DictProvinces">
+<constructor>
+<idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+<arg column="province_code" javaType="java.lang.String" jdbcType="VARCHAR"/>
+<arg column="province_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</constructor>
+</resultMap>
+<sql id="Base_Column_List">id, province_code, province_name</sql>
+<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+select
+<include refid="Base_Column_List"/>
+from t_dict_provinces where id = #{id,jdbcType=INTEGER}
+</select>
+<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+delete from t_dict_provinces where id = #{id,jdbcType=INTEGER}
+</delete>
+<insert id="insert" parameterType="cn.tedu.store.bean.DictProvinces">
+insert into t_dict_provinces (id, province_code, province_name ) values (#{id,jdbcType=INTEGER}, #{provinceCode,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR} )
+</insert>
+<insert id="insertSelective" parameterType="cn.tedu.store.bean.DictProvinces">
+insert into t_dict_provinces
+<trim prefix="(" suffix=")" suffixOverrides=",">
+<if test="id != null">id,</if>
+<if test="provinceCode != null">province_code,</if>
+<if test="provinceName != null">province_name,</if>
+</trim>
+<trim prefix="values (" suffix=")" suffixOverrides=",">
+<if test="id != null">#{id,jdbcType=INTEGER},</if>
+<if test="provinceCode != null">#{provinceCode,jdbcType=VARCHAR},</if>
+<if test="provinceName != null">#{provinceName,jdbcType=VARCHAR},</if>
+</trim>
+</insert>
+<update id="updateByPrimaryKeySelective" parameterType="cn.tedu.store.bean.DictProvinces">
+update t_dict_provinces
+<set>
+<if test="provinceCode != null">province_code = #{provinceCode,jdbcType=VARCHAR},</if>
+<if test="provinceName != null">province_name = #{provinceName,jdbcType=VARCHAR},</if>
+</set>
+where id = #{id,jdbcType=INTEGER}
+</update>
+<update id="updateByPrimaryKey" parameterType="cn.tedu.store.bean.DictProvinces">
+update t_dict_provinces set province_code = #{provinceCode,jdbcType=VARCHAR}, province_name = #{provinceName,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER}
+</update>
+</mapper>

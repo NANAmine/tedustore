@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="cn.tedu.store.mapper.UserMapper">
+<!--  添加一个用户信息到数据库中
+	void insert(User user);  -->
+<!--  会自动的调用user.getXxx()方法传入，所以就不用写#{user.username}  -->
+<!--
+ <insert id="insert" parameterType="cn.tedu.store.bean.User" >
+		insert into t_user(username,password,email,phone,image,gender,created_user,created_time ,modified_user ,modified_time,role)
+		values(#{username},#{password},#{email},#{phone},#{image},#{gender},#{createdUser},#{createdTime} ,#{modifiedUser} ,#{modifiedTime},#{role})
+	</insert> 
+-->
+<insert id="insert" parameterType="cn.tedu.store.bean.User">
+insert t_user
+<trim prefix="(" suffix=")" suffixOverrides=",">
+username,password,email,phone
+<if test="image != null and image != ">,image</if>
+<if test="gender != null and gender != ">,gender</if>
+<if test="createdUser != null and createdUser != ">,created_user</if>
+<if test="createdTime != null and createdTime != ">,created_time</if>
+<if test="modifiedUser != null and modifiedUser != ">,modified_user</if>
+<if test="modifiedTime != null and modifiedTime != ">,modified_time</if>
+<if test="role != null and role != ">,role</if>
+</trim>
+<trim prefix="values (" suffix=")" suffixOverrides=",">
+#{username, jdbcType=VARCHAR}, #{password, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, #{phone, jdbcType=VARCHAR}
+<if test="image != null and image != ">,#{image, jdbcType=VARCHAR}</if>
+<if test="gender != null and gender != ">,#{gender, jdbcType=Integer}</if>
+<if test="createdUser != null and createdUser != ">,#{createdUser, jdbcType=VARCHAR}</if>
+<if test="createdTime != null and createdTime != ">,#{createdTime, jdbcType=datetime}</if>
+<if test="modifiedUser != null and modifiedUser != ">,#{modifiedUser, jdbcType=VARCHAR}</if>
+<if test="modifiedTime != null and modifiedTime != ">,#{modifiedTime, jdbcType=datetime}</if>
+<if test="role != null and role != ">,#{role, jdbcType=Integer}</if>
+</trim>
+</insert>
+<!--  User getUserByUsername(String username)  -->
+<select id="getUserByUsername" resultType="cn.tedu.store.bean.User">
+select id,username,password,email,phone,image,gender,created_user as createdUser,created_time as createdTime,modified_user as modifiedUser,modified_time as modifiedTime,role from t_user where username=#{username}
+</select>
+<select id="getUserByEmail" resultType="cn.tedu.store.bean.User">
+<!--  	User getUserByEmail(String username) ;  -->
+select id,username,password,email,phone,image,gender,created_user as createdUser,created_time as createdTime,modified_user as modifiedUser,modified_time as modifiedTime,role from t_user where email=#{email}
+</select>
+<select id="getUserNum" resultType="java.lang.Integer">
+<!--  Integer getUserNum() ;  -->
+select count(*) from t_user
+</select>
+<select id="getCountByUsername" resultType="java.lang.Integer">
+<!--  Integer getCountByUsername(String username);  -->
+select count(*) from t_user where username = #{username}
+</select>
+<select id="getCountByEmail" resultType="java.lang.Integer">
+<!--  Integer getCountByEmail(String email);  -->
+select count(*) from t_user where email = #{email}
+</select>
+<select id="getCountbyPhone" resultType="java.lang.Integer">
+<!--  Integer getCountByPhone(String phone);  -->
+select count(*) from t_user where phone = #{phone}
+</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

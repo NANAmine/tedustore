@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.store.mapper.CartMapper">
+	<!-- 添加一个购物信息到数据库中 void addCart(Integer goodsid, Integer userid, Integer 
+		count); -->
+	<insert id="addCart" parameterType="cn.tedu.store.bean.Cart">
+		insert into t_cart(goodsid,userid,count)
+		values(#{goodsId},#{userId},#{count})
+	</insert>
+	<!-- 会自动的调用cart.getXxx()方法传入 -->
+	<!-- List<CartVO> getGoodsByUseridInCart(Integer userid); -->
+	<select id="getGoodsByUseridInCart" resultType="cn.tedu.store.bean.CartVO">
+		select
+		t_cart.id,t_goods.image,t_goods.title,t_goods.spec,t_goods.price,t_cart.count
+		from t_cart,t_goods where t_cart.goodsid=t_goods.id and
+		userid=#{userid}
+	</select>
+	
+	<!-- void deleteById(Integer id); -->
+	<delete id="deleteById" parameterType="java.lang.Integer">delete from t_cart where
+		id=#{id}</delete>
+	<!-- void deleteByBatch(List<String> listId); -->
+	<delete id="deleteByBatch" parameterType="java.util.List">
+		delete from t_cart where id in
+		<foreach item="id" collection="listId" open="(" separator=","
+			close=")">#{id}</foreach>
+	</delete>
+	<!-- void updateCountById(@Param("id")Integer id, @Param("count")Integer 
+		count); -->
+	<update id="updateCountById" parameterType="java.lang.Integer">update t_cart set
+		count=#{count} where id=#{id}</update>
+	<!-- Integer getCountByUsername(String username); -->
+	<select id="getCountByUsername" resultType="java.lang.Integer">
+		select count(*) from t_user where username=#{username}
+	</select>
+	<!-- List<Cart> getCartsByUserId(Integer userid); -->
+	<select id="getCartsByUserId" parameterType="java.lang.Integer" resultType="cn.tedu.store.bean.Cart">
+		select *
+		from t_cart
+		where userid=#{userid}
+	</select>
+	
+	
+	<!-- Cart getCartsByid(Integer id); -->
+	<select id="getCartsByid" parameterType="java.lang.Integer" resultType="cn.tedu.store.bean.Cart">
+		select *
+		from t_cart
+		where id=#{id}
+	</select>
+	<!-- void deleteCart(Integer cid); -->
+	<delete id="deleteCart" parameterType="java.lang.Integer">
+		delete from	t_cart
+		where id=#{cid}
+	</delete>
+	
+	<!-- CartVO getCartVOById(Integer id); -->
+	<select id="getCartVOById" parameterType="java.lang.Integer" resultType="cn.tedu.store.bean.CartVO">
+		select 
+		t_cart.id,t_goods.image,t_goods.title,t_goods.spec,t_goods.price,t_cart.count
+		from t_cart,t_goods where t_cart.goodsid=t_goods.id and
+		t_cart.id=#{id}
+	</select>
+	
+</mapper>

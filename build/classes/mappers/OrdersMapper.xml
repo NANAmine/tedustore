@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="cn.tedu.store.mapper.OrdersMapper">
+	<!--  插入订单  -->
+	<!--  void insertOrder(Order order);  -->
+	<insert id="insertOrder" parameterType="cn.tedu.store.bean.Orders" keyProperty="id" useGeneratedKeys="true">
+		insert into t_order( tradetime,userid ) value( now(),#{userId} )
+	</insert>
+	
+	<!--  插入订单详情  -->
+	<!--  void insertOrderItem(OrderItem orderItem);  -->
+	<insert id="insertOrderItem" parameterType="cn.tedu.store.bean.OrderItem">
+		insert into t_orderitem( userid,goodsid,image,title,price,count,orderid )value( #{userId},#{goodsId},#{image},#{title},#{price},#{count},#{orderId} )
+	</insert>
+	
+	<!-- void pay(Integer orderId); -->
+	<update id="pay" parameterType="java.lang.Integer">
+		update t_order
+		set payment_status=3,shipping_status=2
+		where id = #{orderId};
+		
+	</update>
+	<!--
+ 	
+	修改支付状态为已支付
+	void updateStatus(Integer orderId);
+	<update id="updateStatus">
+		update t_orderitem 
+		set paymentStatus=1 
+		where orderId=#{oderId}
+	</update>
+	
+	查询订单详情
+	List<OrderItemVo> selectOrderItems(Integer userId);
+	<select id="selectOrderItems" resultType="cn.tedu.store.vo.OrderItemVo">
+		select 
+			o.id as orderId,
+			o.tradeTime as tradeTime,
+			o.userId as userId,
+			i.id as orderitemId,
+			i.goodsId as goodsId,
+			i.image as image,
+			i.title as title,
+			i.price as price,
+			i.count as count,
+			i.paymentStatus as paymentStatus,
+			i.orderStatus as orderStatus
+		from t_order o join t_orderitem i 
+		on o.id=i.orderId 
+		where o.userId = #{userId}
+	</select>
+	
+	
+	 
+	-->
+	
+	
+	<!-- List<Order> getOrderByUserId(Integer userId); -->
+	<select id="getOrderByUserId" parameterType="java.lang.Integer" resultType="cn.tedu.store.bean.Order">
+		select 
+		id,
+		userid as userId,
+		address_id as addressId, 
+		payment,
+		payment_status as paymentStatus,
+		shipping_status as shippingStatus,
+		tradetime as tradeTime,
+		receiptime as receipTime,
+		delivertime as deliverTime,
+		handovertime as handoverTime
+		from t_order
+		where userid = #{userId}
+		order by tradetime desc
+	</select>
+	
+	
+	
+	<!--  List<OrderItem> getOrderItemByOrderId(Integer orderId); -->
+	<select id="getOrderItemByOrderId" parameterType="java.lang.Integer" resultType="cn.tedu.store.bean.OrderItem">
+		select id,
+		userid as userId,
+		goodsid as goodsId,
+		image,
+		title,
+		price,
+		count,
+		spec,
+		orderid as orderId
+		from t_orderitem
+		where orderid = #{orderId}
+	</select>
+	
+	<!-- 	void confirmReceived(Integer orderId); -->
+	<update id="confirmReceived" parameterType="java.lang.Integer">
+		update t_order
+		set shipping_status=3
+		where id = #{orderId}
+	</update>
+	<!-- void cancelOrder(Integer orderId); -->
+	<update id="cancelOrder" parameterType="java.lang.Integer">
+		update t_order
+		set shipping_status = 5
+		where id= #{orderId}
+	</update>
+</mapper>
